@@ -1,251 +1,379 @@
-# first_step1.o
+# First Step 1.o
 
-I built an **AI-powered outreach system** designed to integrate with multiple **CRMs**, automate lead research, and enhance the lead generation process. The system analyzes **LinkedIn data**, company websites, recent news, and social media activities to gather comprehensive insights on potential leads. Based on this information, it generates detailed **analysis reports** that highlight lead challenges, gaps, and opportunities for engagement.
+An intelligent lead research and outreach automation system that leverages AI to analyze companies, score leads, and generate personalized outreach materials at scale.
 
-The system also creates customized **outreach materials**, including **personalized emails**, **interview preparation scripts**, and **tailored outreach reports** that showcase how our solutions can address the lead's pain points, supported by previous results and case studies.
+## 🚀 Overview
 
-For this project, I created a sample AI marketing agency, **ElevateAI Marketing Solutions**, which focuses on optimizing and automating content strategies and enhancing digital presence using AI.
+This system automates the entire outreach process by:
+- Discovering new companies in target industries
+- Researching companies and decision makers via LinkedIn, websites, and news
+- Scoring leads based on multiple criteria
+- Generating personalized outreach reports, emails, and interview scripts
+- Managing processed companies to avoid duplicates
+- Integrating with CRM systems (Airtable, Google Sheets, HubSpot)
 
-While designed for **ElevateAI**, this system can easily be adapted for any agency or freelancer looking to streamline their lead outreach and improve engagement with prospects. With its customizable features, it offers a powerful, automated approach to lead generation.
 
-## 🚀 Current Features
+## ✨ Features
 
-### **Multi-CRM Integration**
-- Seamlessly connect with popular CRMs like **HubSpot**, **Airtable**, **Google Sheets**, or add your own custom CRM functionality using a standardized schema.
+### Core Capabilities
+- **Multi-source Lead Discovery**: Find companies via CRM or industry-based research
+- **Comprehensive Research**: LinkedIn profiles, company websites, blogs, social media, news
+- **AI-Powered Analysis**: Uses GPT-3.5/GPT-4 for intelligent content analysis
+- **Lead Scoring**: 10-point scoring system based on viability, technical fit, and partnership potential
+- **Automated Outreach**: Generates personalized emails and interview scripts
+- **Duplicate Prevention**: Tracks processed companies to avoid redundant outreach
+- **Multi-CRM Support**: Integrates with Airtable, Google Sheets, and HubSpot
 
-### **Dual Mode Operation**
-- **Standard Lead Mode**: Process individual leads from your CRM with detailed research and qualification
-- **Industry Research Mode**: Automatically discover new companies by industry, excluding existing clients and previously processed companies
+### Research Capabilities
+- LinkedIn profile scraping (personal and company)
+- Website content analysis and tech stack inference
+- Blog content analysis for thought leadership assessment
+- YouTube channel analysis for engagement metrics
+- Recent news monitoring (last 6 months)
+- Social media presence evaluation
 
-### **Smart Company Discovery & Logging**
-- **Intelligent Company Discovery**: Automatically find new companies in target industries using Google search and LinkedIn
-- **Duplicate Prevention**: Built-in logging system prevents processing the same company twice
-- **Industry Exhaustion Tracking**: Marks industries as exhausted when no new companies are found
-- **LinkedIn Link Management**: Stores and retrieves company and decision maker LinkedIn URLs
-- **Log Management Tools**: Utility scripts to view, search, and export processed companies
+### Output Generation
+- Comprehensive lead research reports
+- Digital presence analysis reports
+- Custom outreach strategy documents
+- Personalized email templates
+- SPIN-based interview scripts
+- All reports saved to Google Docs with shareable links
 
-### **Automated Lead Research**
-- **LinkedIn Profile Scraping**: Automatically collect essential details about the lead and their company from LinkedIn to create a comprehensive profile.  
-- **Company Digital Presence Analysis**: Evaluate the company's website and blog content for insights into their products and services. Additionally, assess their social media activity across platforms like **Facebook**, **Twitter**, **YouTube**, and others.  
-- **Recent Company News Analysis**: Keep track of the latest news and announcements related to the company to gain insights into their current initiatives and challenges.  
-- **Pain Point Identification**: Identify potential challenges or gaps faced by the company, and provide tailored recommendations on how your agency's offerings and services can address them.  
-- **Report Generation**: Generate detailed reports for each analysis, which are saved both locally and in **Google Docs**. A consolidated global research report is created, combining insights from the lead profile, company profile, and digital presence. (You can find examples of the reports in the `/reports` folder.)  
+## 🏗️ System Architecture
 
-### **Lead Qualification**
-Automatically assess and qualify leads based on the gathered data and your predefined criteria, here are some examples of criteria that I used:
-- **Digital Presence (Website & Blog)**: Evaluate the quality and relevance of the company's online presence.
-- **Social Media Activity**: Analyze the company's engagement and activity across various social media platforms.
-- **Industry Fit**: Assess how well the company aligns with your target industries and their current or potential use of **AI** and **automation** in marketing.
-- **Company Scale and Potential**: Evaluate the company's size, growth potential, and market expansion indicators such as new hires or funding.
+### State Graph Flow
+```
+1. Get New Leads → 2. Check for Remaining Leads
+                    ↓
+3. Fetch LinkedIn Data → 4. Review Company Website → 5. Collect Company Info
+                                                      ↓
+6. Parallel Analysis: Blog, Social Media, News → 7. Generate Reports
+                                                  ↓
+8. Score Lead → 9. Check Qualification
+                 ↓ (if qualified)
+10. Generate Outreach Materials → 11. Create Email & Script
+                                   ↓
+12. Save to Google Docs → 13. Update CRM → Loop to Step 2
+```
 
-*Note: These criteria can be modified according to specific requirements.*
+### Key Components
+- **Graph Engine**: LangGraph for orchestrating the workflow
+- **LLM Integration**: OpenAI GPT models for content analysis
+- **Data Storage**: Local JSON for processed companies, Google Docs for reports
+- **Web Scraping**: BeautifulSoup for content extraction
+- **APIs**: LinkedIn (via RapidAPI), Google Search (Serper), YouTube Data API
 
-### **Personalized Outreach**
-- **Customized Outreach Report**: Generate a customized outreach report for each lead, highlighting their challenges or gaps, how your services can address them, and referencing previously obtained results and similar case studies (uses RAG to extract them). The report is saved to **Google Docs** for easy sharing.
-- **LinkedIn Contact Information**: Automatically include company and decision maker LinkedIn links in all outreach reports for easy access
-- **Create Personalized Email**: Craft personalized email templates, including a link to the custom outreach report, to engage qualified leads effectively.
-- **Prepare Personalized Interview Script**: Generate a tailored interview script, complete with **SPIN** questions, to help prepare for calls with leads and ensure productive conversations.
+## 📦 Prerequisites
 
-### **Efficient Workflow**
-- **Seamless Collaboration**: all generated research and outreach reports are saved both locally and in **Google Docs**, ensuring easy access and collaboration across teams.
-- **Automated CRM Updates**: Keep your CRM up to date with the latest lead status and links to generated reports, streamlining your outreach efforts.
+### Required Accounts & API Keys
+1. **OpenAI API** - For GPT-3.5/GPT-4 access
+2. **Google Cloud** - For Google Docs, Sheets, and Gmail APIs
+3. **Serper API** - For web search functionality
+4. **RapidAPI** - For LinkedIn scraping
+5. **YouTube API** - For channel analytics (optional)
+6. **CRM Access** - Airtable, Google Sheets, or HubSpot
 
-## 🔄 System Workflow
+### Python Requirements
+- Python 3.8 or higher
+- pip package manager
 
-The system follows the process to manage lead research and outreach efficiently (check the detailed workflow description [here](https://github.com/kaymen99/sales-outreach-automation-langgraph/tree/main/docs/system-workflow.md) and a visual diagram [here](https://github.com/kaymen99/sales-outreach-automation-langgraph/blob/main/workflow.png)):
+## 🛠️ Installation
 
-### **Standard Lead Mode:**
-1. **Fetch Leads**: Connect to your CRM to fetch new leads.
-2. **Research & Insights**:
-   - Gather and analyze key information for each lead:
-     - Scrape **LinkedIn profiles**.
-     - Analyze **company digital presence** (website, blogs, social media, recent news).
-   - Generate detailed analysis reports for each lead combining insights from all previous research. (You can find examples of the reports in the `/reports` folder.)  
-3. **Lead Qualification**: Evaluate each lead based on specific criteria such as **digital presence**, **social media activity**, **industry fit**, or **company scale**.
-4. **Outreach Preparation**: For qualified leads, generate personalized outreach materials:
-     - A **customized outreach report** detailing identified challenges faced by the company and how our services can address them, the system will use RAG to fetch similar case studies (from our internal knowledge base) to be referenced in the report.
-     - A **personalized email** tailored to the lead with a link to the outreach report.
-     - A **customized interview script** to prepare for calls with leads.
-5. **Update CRM**: All generated research and outreach materials are saved locally and to **Google Docs**, and the CRM is updated with the latest lead status and links to the reports.
-
-### **Industry Research Mode:**
-1. **Industry Discovery**: Automatically search for new companies in target industries (Healthcare, Retail, Manufacturing, Defense, AI, etc.)
-2. **Company Filtering**: Exclude existing clients and previously processed companies
-3. **Decision Maker Identification**: Find key decision makers at discovered companies
-4. **Comprehensive Research**: Perform the same detailed research as standard mode
-5. **Qualification & Outreach**: Generate personalized materials for qualified companies
-6. **Logging**: Automatically log all processed companies to prevent duplicates
-
-## 🛠️ Company Logging System
-
-The system includes a sophisticated logging mechanism to prevent duplicate processing:
-
-### **Features:**
-- **Automatic Duplicate Prevention**: Never process the same company twice
-- **Industry Exhaustion Tracking**: Skip industries that have been fully explored
-- **LinkedIn Link Storage**: Store company and decision maker LinkedIn URLs
-- **Easy Management**: Utility scripts for viewing, searching, and exporting logs
-
-### **Usage:**
+1. **Clone the repository**
 ```bash
-# View all processed companies
-python manage_company_log.py view
-
-# Search for a specific company
-python manage_company_log.py search "Microsoft"
-
-# Get LinkedIn links for a company
-python manage_company_log.py linkedin "Microsoft"
-
-# Export the log
-python manage_company_log.py export
+git clone <repository-url>
+cd outreach-automation
 ```
 
-### **Log Structure:**
-```json
-{
-  "last_updated": "2024-01-15T10:30:00",
-  "companies": [
-    {
-      "name": "Example Company Inc",
-      "industry": "Technology",
-      "linkedin_url": "https://linkedin.com/company/example",
-      "decision_maker_linkedin": "https://linkedin.com/in/decision-maker",
-      "processed_date": "2024-01-15T10:30:00"
-    }
-  ]
-}
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-## 🎯 Advantages of This Automation
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-- **Automated Lead Research & Qualification**: The system streamlines lead research by gathering insights from LinkedIn, company websites, social media, and more. It ensures every lead is thoroughly evaluated based on criteria tailored to your agency's needs.
+4. **Set up Google OAuth**
+   - Create a project in Google Cloud Console
+   - Enable APIs: Google Docs, Google Drive, Gmail, Google Sheets
+   - Create OAuth 2.0 credentials
+   - Download as `credentials.json` and place in project root
 
-- **Intelligent Company Discovery**: Automatically find new potential clients in target industries while avoiding duplicates and existing clients.
+5. **Configure environment variables**
+```bash
+cp .env.example .env
+# Edit .env with your API keys
+```
 
-- **Increased Outreach Reply Rates & Conversions**: Instead of sending a simple standalone email, the system generates a detailed audit report for each lead, attached to the email. These reports demonstrate that you've thoroughly researched their business, identified key challenges, and can provide tailored solutions, supported by relevant case studies. This approach increases the likelihood of positive responses, boosting your outreach reply rates and conversions.
+## ⚙️ Configuration
 
-- **Time-Saving & Optimized Team Efficiency**: By automating lead research and generating reports with valuable insights, challenges, and recommendations, the system saves time and enhances teamwork. It provides a prepared interview script to help your team engage clients effectively during calls, and the comprehensive reports enable them to quickly craft and present tailored solutions to potential clients.
+### Environment Variables (.env)
+```env
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key
 
-- **LinkedIn Contact Management**: Easy access to company and decision maker LinkedIn profiles for direct outreach and relationship building.
+# Google APIs (optional if using OAuth)
+GOOGLE_API_KEY=your_google_api_key
 
-## 🔧 Integration with APIs
+# Search and Scraping
+SERPER_API_KEY=your_serper_api_key
+RAPIDAPI_KEY=your_rapidapi_key
 
-- **Airtable CRM**: To integrate with your Airtable contacts CRM, you must [sign up](https://www.airtable.com/) for an Airtable account and create your own contacts database with the relevant fields.
-- **HubSpot CRM**: To integrate with your HubSpot contacts CRM, sign up for a [HubSpot account](https://www.hubspot.com/), then create a private app and obtain your API key. [Follow this tutorial](https://www.youtube.com/watch?v=hSipSbiwc2s) for guidance.
-- **LinkedIn Data**: Scrape profile information using the **RapidAPI LinkedIn Profile Data API**. [Get your API key here](https://rapidapi.com/freshdata-freshdata-default/api/fresh-linkedin-profile-data).
-- **Google APIs**: Used to access **Google Docs**, **Google Sheets** (needed only when used as CRM source), and **Gmail**. Follow [this guide](https://developers.google.com/gmail/api/quickstart/python) and ensure all required APIs are enabled.
-- **Google Searches**: Perform web searches using the **Serper API**. [Get your API key here](https://serper.dev).
-- **LLM**: Leverages **OpenAI GPT models** (GPT-3.5-turbo) for analysis and content generation. [Get your API key here](https://platform.openai.com/api-keys).
+# YouTube (optional)
+YOUTUBE_API_KEY=your_youtube_api_key
 
-## 🛠️ Tech Stack
+# CRM Configuration (choose one)
+# Airtable
+AIRTABLE_ACCESS_TOKEN=your_airtable_token
+AIRTABLE_BASE_ID=your_base_id
+AIRTABLE_TABLE_NAME=your_table_name
 
-- **[Langchain](https://python.langchain.com/docs/introduction/)**: Framework for interacting with multiple LLMs like GPT-4, Gemini, LLAMA3 and building AI agents and RAG applications.
-- **[Langgraph](https://langchain-ai.github.io/langgraph/)**: Framework for building AI agents and automation workflows.
-- **[Pydantic](https://docs.pydantic.dev/)**: Data validation and settings management
-- **[Google APIs](https://developers.google.com/)**: Google Docs, Sheets, and Gmail integration
-- **[RapidAPI](https://rapidapi.com/)**: LinkedIn profile data scraping
+# Google Sheets
+SHEET_ID=your_google_sheet_id
 
-## 🚀 How to Run
+# HubSpot
+HUBSPOT_API_KEY=your_hubspot_key
 
-### Prerequisites
+# Existing Clients Sheet (optional)
+EXISTING_CLIENTS_SHEET_ID=your_existing_clients_sheet_id
+```
 
-- Python 3.9+
-- OpenAI API key (GPT-3.5-turbo)
-- Google APIs credentials
-- API keys for integrated tools (RapidAPI, Serper API)
-- API keys and configurations for your chosen CRM (check `.env.example` for more information)
-- Necessary Python libraries (listed in `requirements.txt`)
+### Configuration Flags (src/nodes.py)
+```python
+SEND_EMAIL_DIRECTLY = True  # Auto-send emails or save as draft
+SEND_EMAIL_TO_LINKEDIN_PERSON = True  # Email decision makers if public email found
+SAVE_TO_GOOGLE_DOCS = True  # Save reports to Google Docs
+INDUSTRY_RESEARCH_MODE = True  # Find new companies by industry
+STOP_AFTER_FIRST_QUALIFIED = True  # Process one qualified lead at a time
+```
 
-### Setup
+### Industries to Research
+Edit `INDUSTRIES_TO_RESEARCH` in `src/nodes.py`:
+```python
+INDUSTRIES_TO_RESEARCH = [
+    "Healthcare",
+    "Retail", 
+    "Manufacturing",
+    "Defense",
+    "AI",
+    "Industrial automation",
+    "Computer Vision",
+    "Telco"
+]
+```
 
-1. **Clone the repository:**
+## 🚀 Usage
 
-   ```sh
-   git clone https://github.com/kaymen99/sales-outreach-automation-langgraph.git
-   cd sales-outreach-automation-langgraph
-   ```
-
-2. **Create and activate a virtual environment:**
-
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-
-3. **Install dependencies:**
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-4. **Set up environment variables:**
-
-   Create a copy of the `.env.example` file:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   After running this command, open the new `.env` file and add your API keys as needed.
-
----
-
-### Start the Application
-
-Run the main script to begin automation:
-
-```sh
+### Basic Usage
+```bash
 python main.py
 ```
 
-The system will connect with your CRM to fetch new leads, perform automated research, qualify leads, and generate personalized outreach materials (You can see examples of reports generated, including the personalized email in the `/reports` folder).
+### Industry Research Mode
+The system can operate in two modes:
 
----
+1. **Standard Mode**: Processes leads from your CRM
+2. **Industry Research Mode**: Discovers new companies in specified industries
 
-### Configuration Options
+Toggle via `INDUSTRY_RESEARCH_MODE` in `src/nodes.py`.
 
-The system can be configured through flags in `src/nodes.py`:
+### Managing Processed Companies
 
-```python
-# Enable or disable sending emails directly using GMAIL
-SEND_EMAIL_DIRECTLY = True
-
-# Enable or disable saving emails to Google Docs
-SAVE_TO_GOOGLE_DOCS = True
-
-# Switch between standard lead mode and industry research mode
-INDUSTRY_RESEARCH_MODE = True
-
-# Stop after first qualified company (useful for testing)
-STOP_AFTER_FIRST_QUALIFIED = True
+View processed companies:
+```bash
+python manage_company_log.py view
 ```
 
+Search for a specific company:
+```bash
+python manage_company_log.py search "Microsoft"
+```
+
+Get LinkedIn links for a company:
+```bash
+python manage_company_log.py linkedin "Microsoft"
+```
+
+Clear the log (use with caution):
+```bash
+python manage_company_log.py clear
+```
+
+Export the log:
+```bash
+python manage_company_log.py export my_backup.json
+```
+
+## 📊 Lead Scoring
+
+The system scores leads on a 0-10 scale based on:
+
+### Scoring Categories
+1. **Company Viability (25%)**
+   - Business model clarity
+   - Market need
+   - Competitive position
+   - Growth potential
+
+2. **Technical Assessment (25%)**
+   - Technology quality
+   - Technical team strength
+   - Product maturity
+   - Innovation level
+
+3. **Market Opportunity (20%)**
+   - Market size
+   - Customer demand
+   - Industry trends
+   - Geographic reach
+
+4. **Partnership Potential (20%)**
+   - Strategic fit
+   - Collaboration potential
+   - Resource needs
+   - Mutual value creation
+
+5. **Risk Assessment (10%)**
+   - Financial stability
+   - Execution risk
+   - Market risk
+   - Competitive risk
+
+**Qualification Threshold**: Leads scoring ≥5.0 are considered qualified.
+
+## 📄 Output Reports
+
+### Report Types
+1. **General Lead Research Report** - Overview of lead and company
+2. **Digital Presence Report** - Analysis of online presence
+3. **Global Lead Analysis Report** - Comprehensive assessment
+4. **Custom Outreach Report** - Tailored partnership proposal
+5. **Personalized Email** - Ready-to-send outreach email
+6. **Interview Script** - SPIN-based discovery questions
+
+### Report Storage
+- **Local**: Saved in `reports/` directory
+- **Google Docs**: Organized in folders by lead/company name
+- **Shareable Links**: Generated for each report
+
+## 🔌 API Integrations
+
+### LinkedIn Scraping
+Uses RapidAPI's LinkedIn service for profile data:
+- Personal profiles: `/get-linkedin-profile`
+- Company profiles: `/get-company-by-linkedinurl`
+
+### Web Search
+Serper API for:
+- Company discovery
+- News articles
+- Website finding
+- Decision maker search
+
+### Google Services
+- **Docs API**: Report creation and sharing
+- **Drive API**: Folder management
+- **Gmail API**: Email drafting and sending
+- **Sheets API**: CRM integration
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**1. Token Limit Errors**
+```bash
+# Test token handling
+python test_token_handling.py
+```
+Solution: The system automatically truncates content exceeding token limits.
+
+**2. Google Authentication Issues**
+- Delete `token.json` and re-authenticate
+- Ensure all required Google APIs are enabled
+- Check OAuth consent screen configuration
+
+**3. LinkedIn Scraping Failures**
+- Verify RapidAPI key is valid
+- Check if LinkedIn URL format is correct
+- Some profiles may be private or restricted
+
+**4. CRM Connection Issues**
+- Verify API credentials
+- Check table/sheet permissions
+- Ensure correct field names in CRM
+
+### Debug Mode
+Add to your script for detailed logging:
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+## 🔧 Development
+
+### Project Structure
+```
+outreach-automation/
+├── src/
+│   ├── graph.py              # Workflow orchestration
+│   ├── nodes.py              # Node implementations
+│   ├── state.py              # State definitions
+│   ├── prompts.py            # AI prompt templates
+│   ├── structured_outputs.py # Output schemas
+│   ├── utils.py              # Helper functions
+│   └── tools/                # Integration tools
+│       ├── base/             # Core tools
+│       ├── leads_loader/     # CRM integrations
+│       └── other tools...
+├── data/
+│   └── case_studies/         # RAG content
+├── reports/                  # Local report storage
+├── main.py                   # Entry point
+├── manage_company_log.py     # Log management
+└── processed_companies.json  # Processed company tracking
+```
+
+### Adding New Features
+
+**1. New CRM Integration**
+- Create new class in `src/tools/leads_loader/`
+- Extend `LeadLoaderBase`
+- Implement `fetch_records()` and `update_record()`
+
+**2. New Analysis Type**
+- Add analysis node in `src/nodes.py`
+- Update graph in `src/graph.py`
+- Create prompt in `src/prompts.py`
+
+**3. New Industry**
+- Add to `INDUSTRIES_TO_RESEARCH` list
+- System will automatically include in research
+
+### Testing
+```bash
+# Run token handling tests
+python test_token_handling.py
+
+# Test specific component
+python -m pytest tests/test_component.py
+```
+
+## 📝 License
+
+Dell Technologies © 2025
+
+
+## 📧 Support
+
+For issues and questions:
+- Contact jadorant@villanova.edu for questions
+- Review processed_companies.json for system state
+- Enable debug logging for detailed error messages
+
 ---
 
-### Customizing the Automation
-
-For developers who wish to integrate their own CRM or customize the behavior of the automation, please refer to the [Customization Guide](./docs/customization.md). The guide covers:
-
-- **Add your own service/product data**: The `/data` folder includes agency details and past case studies used in reports, emails, and interviews generation. You should update these files to reflect your own service/product details and your past case studies.
-- **Integrating Custom CRMs**: Instructions for adding your CRM to the system by extending the base class.
-- **Customizing Lead Statuses**: Learn how to modify the statuses used to filter and fetch leads.
-- **Updating CRM Fields**: Tailor the functions in the `OutReachAutomationNodes` class to handle different CRM field names or additional fields.
-- **Customizing Prompts**: Update the prompts used for qualifying leads, generating reports, personalizing emails, and preparing interview questions.
-- **Managing Company Logs**: Learn how to use the company logging system and customize industry targets.
-
----
-
-## 📚 Documentation
-
-- **[System Workflow](./docs/system-workflow.md)**: Detailed explanation of the automation workflow
-- **[Customization Guide](./docs/customization.md)**: How to customize the system for your needs
-- **[Company Logging System](./COMPANY_LOGGING_README.md)**: Complete guide to the company logging features
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or features you'd like to see.
-
-## 📞 Contact
-
-For questions or suggestions, contact me at `aymenMir1001@gmail.com`.
+**Note**: This system is designed for B2B outreach automation. Ensure compliance with all applicable laws and regulations regarding automated outreach and data collection in your jurisdiction.
